@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import navigation from "./navigation";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [currentSection, setCurrentSection] = useState("home");
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+  const content = {
+    home: "Welcome to my Company!",
+    history: "Our company was founded in 2000...",
+    pastWork: ["Project 1", "Project 2", "Project 3"],
+    staff: [
+      { name: "John", role: "CEO" },
+      { name: "Jane", role: "CFO" },
+      { name: "Joe", role: "CTO" },
+    ],
+    contact: "Contact us at",
+    externalLinks: [
+      { name: "Google", url: "https://www.google.com" },
+      { name: "Facebook", url: "https://www.facebook.com" },
+    ],
+  };
 
-export default App
+  const renderSection = () => {
+    switch (currentSection) {
+      case "home":
+        return <p>{content.home}</p>;
+      case "history":
+        return <p>{content.history} </p>;
+      case "pastWork":
+        return (
+          <ul>
+            {content.pastWork.map((work, index) => (
+              <li key={index}>{work}</li>
+            ))}
+          </ul>
+        );
+      case "staff":
+        return (
+          <ul>
+            {content.staff.map((staff, index) => (
+              <li key={index}>
+                {staff.name} - {staff.role}
+              </li>
+            ))}
+          </ul>
+        );
+      case "contact":
+        return <p>{content.contact}</p>;
+      case "externalLinks":
+        return (
+          <ul>
+            {content.externalLinks.map((link, index) => (
+              <li key={index}>
+                <a href={link.url}>{link.name}</a>
+              </li>
+            ))}
+          </ul>
+        );
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+  return
+  (
+  <navigation currentSection={currentSection} setCurrentSection={setCurrentSection}>
+  <main>{renderSection()}</main>);
+};
+
+export default App;
